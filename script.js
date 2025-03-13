@@ -8,22 +8,21 @@ toggleButton.addEventListener('click', () => {
 
 // Doble clic/doble tap para zoom
 document.querySelectorAll('.gallery-image').forEach(image => {
+    let lastTouch = 0;
+
+    // Zoom con doble clic (escritorio)
     image.addEventListener('dblclick', () => {
         image.classList.toggle('zoomed');
     });
 
+    // Zoom con doble tap (móviles)
     image.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
-            const touch = e.touches[0];
             const now = new Date().getTime();
-            const previousTouch = image.dataset.lastTouch || now;
-            const delta = now - previousTouch;
-
-            if (delta < 300 && delta > 0) { // Doble tap
+            if (now - lastTouch < 300) { // Doble tap
                 image.classList.toggle('zoomed');
             }
-
-            image.dataset.lastTouch = now;
+            lastTouch = now;
         }
     });
 });
@@ -50,9 +49,9 @@ window.addEventListener('click', (e) => {
     }
 });
 
-// Evitar zoom en móviles sin congelar la pantalla
+// Evitar zoom en móviles sin bloquear el desplazamiento
 document.addEventListener('touchmove', (e) => {
-    if (e.scale !== 1) {
-        e.preventDefault();
+    if (e.touches.length > 1) { // Si hay más de un dedo en la pantalla
+        e.preventDefault(); // Evita el zoom
     }
 }, { passive: false });
