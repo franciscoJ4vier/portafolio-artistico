@@ -11,18 +11,18 @@ body {
 header {
     background-color: #1a1a1a;
     color: #fff;
-    padding: 20px 0;
+    padding: 10px 0; /* Reducimos el padding vertical */
     text-align: center;
 }
 
 header h1 {
-    font-size: 2.5rem;
+    font-size: 1.8rem; /* Reducimos el tamaño del título */
     margin: 0;
     font-weight: 700;
 }
 
 header p {
-    font-size: 1.2rem;
+    font-size: 1rem; /* Reducimos el tamaño del subtítulo */
     margin: 5px 0 0;
     font-weight: 300;
 }
@@ -30,23 +30,23 @@ header p {
 nav ul.button-grid {
     list-style: none;
     padding: 0;
-    margin: 20px 0 0;
+    margin: 10px 0 0; /* Reducimos el margen superior */
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 8px; /* Reducimos el espacio entre botones */
     justify-content: center;
     max-width: 600px;
-    margin: 20px auto;
+    margin: 10px auto; /* Centramos y reducimos el margen */
 }
 
 nav ul.button-grid li .nav-button {
     width: 100%;
-    padding: 15px;
+    padding: 10px; /* Reducimos el padding de los botones */
     background-color: #D4A418;
     color: #1a1a1a;
     border: none;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 0.9rem; /* Reducimos el tamaño de la fuente */
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -57,16 +57,16 @@ nav ul.button-grid li .nav-button:hover {
 }
 
 main {
-    padding: 40px 20px;
+    padding: 20px; /* Reducimos el padding del contenido principal */
 }
 
 .gallery-section {
-    margin-bottom: 60px;
+    margin-bottom: 40px; /* Reducimos el margen inferior */
 }
 
 .gallery-section h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 1.5rem; /* Reducimos el tamaño del título de la sección */
+    margin-bottom: 15px;
     color: #1a1a1a;
     text-align: center;
 }
@@ -156,4 +156,35 @@ main {
 
 .close:hover {
     color: #D4A418;
+}
+
+/* Estilos para móviles */
+@media (max-width: 768px) {
+    header {
+        padding: 8px 0; /* Aún menos padding en móviles */
+    }
+
+    header h1 {
+        font-size: 1.5rem; /* Título más pequeño en móviles */
+    }
+
+    header p {
+        font-size: 0.9rem; /* Subtítulo más pequeño en móviles */
+    }
+
+    nav ul.button-grid {
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas en móviles */
+        gap: 6px; /* Menor espacio entre botones */
+        margin: 8px auto; /* Menor margen en móviles */
+    }
+
+    nav ul.button-grid li .nav-button {
+        padding: 8px; /* Botones más pequeños en móviles */
+        font-size: 0.8rem; /* Fuente más pequeña en móviles */
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Imágenes más pequeñas en móviles */
+        gap: 10px; /* Menor espacio entre imágenes */
+    }
 }
