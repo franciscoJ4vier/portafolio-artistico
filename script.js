@@ -50,7 +50,7 @@ window.addEventListener('click', (e) => {
     }
 });
 
-// Desactivar zoom de la página en móviles
+// Evitar zoom en móviles sin congelar la pantalla
 document.addEventListener('touchmove', (e) => {
     if (e.scale !== 1) {
         e.preventDefault();

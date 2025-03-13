@@ -74,19 +74,27 @@ main {
 
 /* Estilos para escritorio (pantallas grandes) */
 .gallery-grid {
-    display: grid;
+    display: none; /* Ocultar inicialmente */
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
+}
+
+.gallery-grid.visible {
+    display: grid; /* Mostrar al hacer clic en el botón */
 }
 
 /* Estilos para móviles (pantallas pequeñas) */
 @media (max-width: 768px) {
     .gallery-grid {
-        display: flex;
+        display: none; /* Ocultar inicialmente */
         overflow-x: auto; /* Scroll horizontal */
         scroll-snap-type: x mandatory;
         gap: 20px;
         padding-bottom: 20px; /* Espacio para el scroll */
+    }
+
+    .gallery-grid.visible {
+        display: flex; /* Mostrar al hacer clic en el botón */
     }
 
     .gallery-grid .image-container {
