@@ -1,0 +1,142 @@
+/* Estilos generales */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f9f9f9;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin: 5px 0 0;
+    font-weight: 300;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a, .nav-button {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+nav ul li a:hover, .nav-button:hover {
+    color: #D4A418;
+}
+
+main {
+    padding: 40px 20px;
+}
+
+.gallery-section {
+    margin-bottom: 60px;
+}
+
+.gallery-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.gallery-grid.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.gallery-grid.visible .image-container {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gallery-image {
+    width: 100%;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.zoom-preview {
+    position: absolute;
+    top: 0;
+    left: 110%;
+    width: 300px;
+    height: 300px;
+    background-size: 200%; /* Amplía la imagen al 200% */
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 10;
+    pointer-events: none; /* Evita que el cuadro de lupa interfiera con el cursor */
+}
+
+.image-container:hover .zoom-preview {
+    display: block;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .zoom-preview {
+        display: none; /* Desactivar efecto de lupa en móviles */
+    }
+}
