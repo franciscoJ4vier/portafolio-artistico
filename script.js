@@ -4,49 +4,55 @@ const galleryGrid = document.querySelector('.gallery-grid');
 
 toggleButton.addEventListener('click', () => {
     galleryGrid.classList.toggle('visible');
+});
 
-    // Aplicar animación de aparición/desaparición a cada imagen
-    const imageContainers = galleryGrid.querySelectorAll('.image-container');
-    if (galleryGrid.classList.contains('visible')) {
-        imageContainers.forEach((container, index) => {
-            setTimeout(() => {
-                container.style.opacity = 1;
-                container.style.transform = 'translateY(0)';
-            }, index * 100); // Retraso para animación secuencial
-        });
-    } else {
-        imageContainers.forEach((container, index) => {
-            setTimeout(() => {
-                container.style.opacity = 0;
-                container.style.transform = 'translateY(20px)';
-            }, index * 100); // Retraso para animación secuencial
-        });
+// Doble clic/doble tap para zoom
+document.querySelectorAll('.gallery-image').forEach(image => {
+    image.addEventListener('dblclick', () => {
+        image.classList.toggle('zoomed');
+    });
+
+    image.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            const now = new Date().getTime();
+            const previousTouch = image.dataset.lastTouch || now;
+            const delta = now - previousTouch;
+
+            if (delta < 300 && delta > 0) { // Doble tap
+                image.classList.toggle('zoomed');
+            }
+
+            image.dataset.lastTouch = now;
+        }
+    });
+});
+
+// Modal para vista ampliada
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modal-image');
+const closeModal = document.querySelector('.close');
+
+document.querySelectorAll('.gallery-image').forEach(image => {
+    image.addEventListener('click', () => {
+        modal.style.display = 'block';
+        modalImage.src = image.src;
+    });
+});
+
+closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
     }
 });
 
-// Efecto de lupa
-document.querySelectorAll('.gallery-image').forEach(image => {
-    const zoomPreview = image.parentElement.querySelector('.zoom-preview');
-
-    image.addEventListener('mousemove', (e) => {
-        const rect = image.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        // Calcular la posición del cursor en porcentajes
-        const xPercent = (x / rect.width) * 100;
-        const yPercent = (y / rect.height) * 100;
-
-        // Actualizar el fondo del cuadro de lupa
-        zoomPreview.style.backgroundImage = `url(${image.src})`;
-        zoomPreview.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
-    });
-
-    image.addEventListener('mouseleave', () => {
-        zoomPreview.style.display = 'none';
-    });
-
-    image.addEventListener('mouseenter', () => {
-        zoomPreview.style.display = 'block';
-    });
-});
+// Desactivar zoom de la página en móviles
+document.addEventListener('touchmove', (e) => {
+    if (e.scale !== 1) {
+        e.preventDefault();
+    }
+}, { passive: false });

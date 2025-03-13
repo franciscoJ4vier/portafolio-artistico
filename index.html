@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -19,13 +19,13 @@
             <p>Artista Visual · Enfoque Conceptual Contemporáneo</p>
         </div>
         <nav>
-            <ul>
+            <ul class="button-grid">
                 <li><button id="toggle-ilustraciones" class="nav-button">Ilustraciones</button></li>
-                <li><a href="#artesanias">Artesanías</a></li>
-                <li><a href="#pintura">Pintura</a></li>
-                <li><a href="#murales">Murales</a></li>
-                <li><a href="#graffiti">Graffiti</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><button id="toggle-artesanias" class="nav-button">Artesanías</button></li>
+                <li><button id="toggle-pintura" class="nav-button">Pintura</button></li>
+                <li><button id="toggle-murales" class="nav-button">Murales</button></li>
+                <li><button id="toggle-graffiti" class="nav-button">Graffiti</button></li>
+                <li><button id="toggle-contacto" class="nav-button">Contacto</button></li>
             </ul>
         </nav>
     </header>
@@ -36,37 +36,36 @@
             <div class="gallery-grid">
                 <div class="image-container">
                     <img src="ilustraciones/i1.jpg" alt="Ilustración 1" class="gallery-image">
-                    <div class="zoom-preview"></div>
                 </div>
                 <div class="image-container">
                     <img src="ilustraciones/i2.jpg" alt="Ilustración 2" class="gallery-image">
-                    <div class="zoom-preview"></div>
                 </div>
                 <div class="image-container">
                     <img src="ilustraciones/i3.jpg" alt="Ilustración 3" class="gallery-image">
-                    <div class="zoom-preview"></div>
                 </div>
                 <div class="image-container">
                     <img src="ilustraciones/i4.jpg" alt="Ilustración 4" class="gallery-image">
-                    <div class="zoom-preview"></div>
                 </div>
                 <div class="image-container">
                     <img src="ilustraciones/i5.jpg" alt="Ilustración 5" class="gallery-image">
-                    <div class="zoom-preview"></div>
                 </div>
                 <div class="image-container">
                     <img src="ilustraciones/i6.jpg" alt="Ilustración 6" class="gallery-image">
-                    <div class="zoom-preview"></div>
                 </div>
                 <div class="image-container">
                     <img src="ilustraciones/i7.jpg" alt="Ilustración 7" class="gallery-image">
-                    <div class="zoom-preview"></div>
                 </div>
             </div>
         </section>
 
         <!-- Otras secciones (artesanías, pintura, etc.) -->
     </main>
+
+    <!-- Modal para vista ampliada -->
+    <div id="modal" class="modal">
+        <span class="close">&times;</span>
+        <img id="modal-image" class="modal-content">
+    </div>
 
     <footer>
         <p>&copy; 2023 Francisco Dávalos. Todos los derechos reservados.</p>
