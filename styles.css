@@ -101,7 +101,7 @@ main {
         width: 80%;
         scroll-snap-align: start;
         position: relative;
-        transition: filter 0.3s ease;
+        transition: filter 0.1s ease; /* Transición más rápida */
     }
 
     .gallery-grid .image-container:not(.active) {
