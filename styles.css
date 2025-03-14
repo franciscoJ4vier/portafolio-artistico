@@ -87,7 +87,7 @@ main {
     .gallery-grid {
         display: none;
         overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: x mandatory; /* Forzar el ajuste al centro */
         gap: 15px;
         padding-bottom: 20px;
     }
@@ -99,7 +99,7 @@ main {
     .gallery-grid .image-container {
         flex: 0 0 auto;
         width: 80%;
-        scroll-snap-align: start;
+        scroll-snap-align: center; /* Centrar la imagen en la pantalla */
         position: relative;
         transition: filter 0.1s ease; /* Transición más rápida */
     }
