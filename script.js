@@ -59,6 +59,7 @@ galleryGrid.addEventListener('mouseleave', () => {
 galleryGrid.addEventListener('mouseup', () => {
     isDragging = false;
     centerActiveImage();
+    updateBlurEffect(); // Asegurar que el desenfoque se actualice al soltar el mouse
 });
 
 galleryGrid.addEventListener('mousemove', (e) => {
@@ -72,11 +73,13 @@ galleryGrid.addEventListener('mousemove', (e) => {
 
 // Eventos para el desplazamiento táctil en móviles
 galleryGrid.addEventListener('touchstart', (e) => {
+    isDragging = true;
     startX = e.touches[0].pageX - galleryGrid.offsetLeft;
     scrollLeft = galleryGrid.scrollLeft;
 });
 
 galleryGrid.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
     const x = e.touches[0].pageX - galleryGrid.offsetLeft;
     const walk = (x - startX) * 2;
     galleryGrid.scrollLeft = scrollLeft - walk;
@@ -84,6 +87,7 @@ galleryGrid.addEventListener('touchmove', (e) => {
 });
 
 galleryGrid.addEventListener('touchend', () => {
+    isDragging = false;
     centerActiveImage();
     updateBlurEffect(); // Asegurar que el desenfoque se actualice al soltar el dedo
 });
