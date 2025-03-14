@@ -87,7 +87,7 @@ main {
     .gallery-grid {
         display: none;
         overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: x proximity; /* Ajuste suave */
         gap: 15px;
         padding-bottom: 20px;
     }

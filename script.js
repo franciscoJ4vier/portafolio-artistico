@@ -29,20 +29,23 @@ function updateBlurEffect() {
     });
 }
 
-// Función para centrar la imagen activa
+// Función para centrar la imagen activa con un retraso
 function centerActiveImage() {
-    const activeIndex = getActiveIndex();
-    const activeImage = imageContainers[activeIndex];
+    setTimeout(() => {
+        const activeIndex = getActiveIndex();
+        const activeImage = imageContainers[activeIndex];
 
-    activeImage.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        activeImage.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 
-    imageContainers.forEach((container, index) => {
-        if (index === activeIndex) {
-            container.classList.add('active');
-        } else {
-            container.classList.remove('active');
-        }
-    });
+        imageContainers.forEach((container, index) => {
+            if (index === activeIndex) {
+                container.classList.add('active');
+            } else {
+                container.classList.remove('active');
+            }
+        });
+        updateBlurEffect(); // Actualizar el desenfoque después de centrar
+    }, 100); // Retraso de 100ms
 }
 
 // Eventos para el desplazamiento con el mouse
@@ -50,6 +53,7 @@ galleryGrid.addEventListener('mousedown', (e) => {
     isDragging = true;
     startX = e.pageX - galleryGrid.offsetLeft;
     scrollLeft = galleryGrid.scrollLeft;
+    galleryGrid.style.scrollSnapType = 'none'; // Desactivar scroll-snap
 });
 
 galleryGrid.addEventListener('mouseleave', () => {
@@ -58,15 +62,15 @@ galleryGrid.addEventListener('mouseleave', () => {
 
 galleryGrid.addEventListener('mouseup', () => {
     isDragging = false;
+    galleryGrid.style.scrollSnapType = 'x proximity'; // Reactivar scroll-snap
     centerActiveImage();
-    updateBlurEffect(); // Asegurar que el desenfoque se actualice al soltar el mouse
 });
 
 galleryGrid.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - galleryGrid.offsetLeft;
-    const walk = (x - startX) * 2;
+    const walk = (x - startX) * 1; // Sensibilidad reducida
     galleryGrid.scrollLeft = scrollLeft - walk;
     updateBlurEffect();
 });
@@ -76,20 +80,21 @@ galleryGrid.addEventListener('touchstart', (e) => {
     isDragging = true;
     startX = e.touches[0].pageX - galleryGrid.offsetLeft;
     scrollLeft = galleryGrid.scrollLeft;
+    galleryGrid.style.scrollSnapType = 'none'; // Desactivar scroll-snap
 });
 
 galleryGrid.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     const x = e.touches[0].pageX - galleryGrid.offsetLeft;
-    const walk = (x - startX) * 2;
+    const walk = (x - startX) * 1; // Sensibilidad reducida
     galleryGrid.scrollLeft = scrollLeft - walk;
     updateBlurEffect();
 });
 
 galleryGrid.addEventListener('touchend', () => {
     isDragging = false;
+    galleryGrid.style.scrollSnapType = 'x proximity'; // Reactivar scroll-snap
     centerActiveImage();
-    updateBlurEffect(); // Asegurar que el desenfoque se actualice al soltar el dedo
 });
 
 // Botones de desplazamiento
@@ -100,16 +105,16 @@ scrollLeftButton.addEventListener('click', () => {
     galleryGrid.scrollBy({ left: -300, behavior: 'smooth' });
     setTimeout(() => {
         centerActiveImage();
-        updateBlurEffect(); // Actualizar el desenfoque después del desplazamiento
-    }, 300); // Esperar a que termine la animación de desplazamiento
+        updateBlurEffect();
+    }, 300);
 });
 
 scrollRightButton.addEventListener('click', () => {
     galleryGrid.scrollBy({ left: 300, behavior: 'smooth' });
     setTimeout(() => {
         centerActiveImage();
-        updateBlurEffect(); // Actualizar el desenfoque después del desplazamiento
-    }, 300); // Esperar a que termine la animación de desplazamiento
+        updateBlurEffect();
+    }, 300);
 });
 
 // Zoom con doble clic o doble tap
