@@ -6,7 +6,86 @@ toggleButton.addEventListener('click', () => {
     galleryGrid.classList.toggle('visible');
 });
 
-// Funcionalidad de doble tap y centrado en móviles
+// Funcionalidad de deslizamiento y desenfoque en tiempo real
+const imageContainers = document.querySelectorAll('.gallery-grid .image-container');
+let isDragging = false;
+let startX, scrollLeft;
+
+// Función para calcular el índice activo basado en la posición de desplazamiento
+function getActiveIndex() {
+    const containerWidth = imageContainers[0].offsetWidth; // Ancho de cada contenedor de imagen
+    const scrollPosition = galleryGrid.scrollLeft;
+    return Math.round(scrollPosition / containerWidth); // Índice de la imagen activa
+}
+
+// Función para actualizar el desenfoque en tiempo real
+function updateBlurEffect() {
+    const activeIndex = getActiveIndex(); // Obtener el índice activo actual
+
+    imageContainers.forEach((container, index) => {
+        const distance = Math.abs(index - activeIndex); // Distancia entre la imagen actual y la activa
+        const blurAmount = Math.min(5, distance * 2); // Cantidad de desenfoque proporcional a la distancia
+        container.style.filter = `blur(${blurAmount}px)`; // Aplicar el desenfoque
+    });
+}
+
+// Función para actualizar la imagen activa
+function updateActiveImage() {
+    const activeIndex = getActiveIndex(); // Obtener el índice activo actual
+
+    imageContainers.forEach((container, index) => {
+        if (index === activeIndex) {
+            container.classList.add('active'); // Marcar la imagen como activa
+            container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); // Centrar la imagen
+        } else {
+            container.classList.remove('active'); // Desmarcar las demás imágenes
+        }
+    });
+}
+
+// Eventos para el desplazamiento con el mouse
+galleryGrid.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.pageX - galleryGrid.offsetLeft;
+    scrollLeft = galleryGrid.scrollLeft;
+});
+
+galleryGrid.addEventListener('mouseleave', () => {
+    isDragging = false;
+});
+
+galleryGrid.addEventListener('mouseup', () => {
+    isDragging = false;
+    updateActiveImage(); // Actualizar la imagen activa al soltar el mouse
+});
+
+galleryGrid.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - galleryGrid.offsetLeft;
+    const walk = (x - startX) * 2; // Velocidad de desplazamiento
+    galleryGrid.scrollLeft = scrollLeft - walk;
+    updateBlurEffect(); // Actualizar el desenfoque en tiempo real
+});
+
+// Eventos para el desplazamiento táctil en móviles
+galleryGrid.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].pageX - galleryGrid.offsetLeft;
+    scrollLeft = galleryGrid.scrollLeft;
+});
+
+galleryGrid.addEventListener('touchmove', (e) => {
+    const x = e.touches[0].pageX - galleryGrid.offsetLeft;
+    const walk = (x - startX) * 2; // Velocidad de desplazamiento
+    galleryGrid.scrollLeft = scrollLeft - walk;
+    updateBlurEffect(); // Actualizar el desenfoque en tiempo real
+});
+
+galleryGrid.addEventListener('touchend', () => {
+    updateActiveImage(); // Actualizar la imagen activa al soltar el dedo
+});
+
+// Zoom con doble clic o doble tap
 document.querySelectorAll('.gallery-image').forEach(image => {
     let lastTouch = 0;
 
@@ -21,21 +100,9 @@ document.querySelectorAll('.gallery-image').forEach(image => {
             const now = new Date().getTime();
             if (now - lastTouch < 300) { // Doble tap
                 image.classList.toggle('zoomed');
-                if (image.classList.contains('zoomed')) {
-                    image.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-                }
             }
             lastTouch = now;
         }
-    });
-
-    // Centrar imagen al hacer tap
-    image.addEventListener('click', () => {
-        document.querySelectorAll('.image-container').forEach(container => {
-            container.classList.remove('active');
-        });
-        image.parentElement.classList.add('active');
-        image.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
     });
 });
 
@@ -60,10 +127,3 @@ window.addEventListener('click', (e) => {
         modal.style.display = 'none';
     }
 });
-
-// Evitar zoom en móviles sin bloquear el desplazamiento
-document.addEventListener('touchmove', (e) => {
-    if (e.touches.length > 1) {
-        e.preventDefault();
-    }
-}, { passive: false });
