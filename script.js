@@ -13,36 +13,34 @@ let startX, scrollLeft;
 
 // Función para calcular el índice activo basado en la posición de desplazamiento
 function getActiveIndex() {
-    const containerWidth = imageContainers[0].offsetWidth; // Ancho de cada contenedor de imagen
+    const containerWidth = imageContainers[0].offsetWidth;
     const scrollPosition = galleryGrid.scrollLeft;
-    return Math.round(scrollPosition / containerWidth); // Índice de la imagen activa
+    return Math.round(scrollPosition / containerWidth);
 }
 
 // Función para actualizar el desenfoque en tiempo real
 function updateBlurEffect() {
-    const activeIndex = getActiveIndex(); // Obtener el índice activo actual
+    const activeIndex = getActiveIndex();
 
     imageContainers.forEach((container, index) => {
-        const distance = Math.abs(index - activeIndex); // Distancia entre la imagen actual y la activa
-        const blurAmount = Math.min(5, distance * 2); // Cantidad de desenfoque proporcional a la distancia
-        container.style.filter = `blur(${blurAmount}px)`; // Aplicar el desenfoque
+        const distance = Math.abs(index - activeIndex);
+        const blurAmount = Math.min(5, distance * 2);
+        container.style.filter = `blur(${blurAmount}px)`;
     });
 }
 
 // Función para centrar la imagen activa
 function centerActiveImage() {
-    const activeIndex = getActiveIndex(); // Obtener el índice activo actual
+    const activeIndex = getActiveIndex();
     const activeImage = imageContainers[activeIndex];
 
-    // Centrar la imagen activa
     activeImage.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 
-    // Actualizar las clases activas
     imageContainers.forEach((container, index) => {
         if (index === activeIndex) {
-            container.classList.add('active'); // Marcar la imagen como activa
+            container.classList.add('active');
         } else {
-            container.classList.remove('active'); // Desmarcar las demás imágenes
+            container.classList.remove('active');
         }
     });
 }
@@ -60,16 +58,16 @@ galleryGrid.addEventListener('mouseleave', () => {
 
 galleryGrid.addEventListener('mouseup', () => {
     isDragging = false;
-    centerActiveImage(); // Centrar la imagen activa al soltar el mouse
+    centerActiveImage();
 });
 
 galleryGrid.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - galleryGrid.offsetLeft;
-    const walk = (x - startX) * 2; // Velocidad de desplazamiento
+    const walk = (x - startX) * 2;
     galleryGrid.scrollLeft = scrollLeft - walk;
-    updateBlurEffect(); // Actualizar el desenfoque en tiempo real
+    updateBlurEffect();
 });
 
 // Eventos para el desplazamiento táctil en móviles
@@ -80,29 +78,48 @@ galleryGrid.addEventListener('touchstart', (e) => {
 
 galleryGrid.addEventListener('touchmove', (e) => {
     const x = e.touches[0].pageX - galleryGrid.offsetLeft;
-    const walk = (x - startX) * 2; // Velocidad de desplazamiento
+    const walk = (x - startX) * 2;
     galleryGrid.scrollLeft = scrollLeft - walk;
-    updateBlurEffect(); // Actualizar el desenfoque en tiempo real
+    updateBlurEffect();
 });
 
 galleryGrid.addEventListener('touchend', () => {
-    centerActiveImage(); // Centrar la imagen activa al soltar el dedo
+    centerActiveImage();
+    updateBlurEffect(); // Asegurar que el desenfoque se actualice al soltar el dedo
+});
+
+// Botones de desplazamiento
+const scrollLeftButton = document.getElementById('scroll-left');
+const scrollRightButton = document.getElementById('scroll-right');
+
+scrollLeftButton.addEventListener('click', () => {
+    galleryGrid.scrollBy({ left: -300, behavior: 'smooth' });
+    setTimeout(() => {
+        centerActiveImage();
+        updateBlurEffect(); // Actualizar el desenfoque después del desplazamiento
+    }, 300); // Esperar a que termine la animación de desplazamiento
+});
+
+scrollRightButton.addEventListener('click', () => {
+    galleryGrid.scrollBy({ left: 300, behavior: 'smooth' });
+    setTimeout(() => {
+        centerActiveImage();
+        updateBlurEffect(); // Actualizar el desenfoque después del desplazamiento
+    }, 300); // Esperar a que termine la animación de desplazamiento
 });
 
 // Zoom con doble clic o doble tap
 document.querySelectorAll('.gallery-image').forEach(image => {
     let lastTouch = 0;
 
-    // Zoom con doble clic (escritorio)
     image.addEventListener('dblclick', () => {
         image.classList.toggle('zoomed');
     });
 
-    // Zoom con doble tap (móviles)
     image.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
             const now = new Date().getTime();
-            if (now - lastTouch < 300) { // Doble tap
+            if (now - lastTouch < 300) {
                 image.classList.toggle('zoomed');
             }
             lastTouch = now;

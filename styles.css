@@ -87,7 +87,7 @@ main {
     .gallery-grid {
         display: none;
         overflow-x: auto;
-        scroll-snap-type: x mandatory; /* Forzar el ajuste al centro */
+        scroll-snap-type: x mandatory;
         gap: 15px;
         padding-bottom: 20px;
     }
@@ -99,9 +99,9 @@ main {
     .gallery-grid .image-container {
         flex: 0 0 auto;
         width: 80%;
-        scroll-snap-align: center; /* Centrar la imagen en la pantalla */
+        scroll-snap-align: center;
         position: relative;
-        transition: filter 0.1s ease; /* Transición más rápida */
+        transition: filter 0.1s ease;
     }
 
     .gallery-grid .image-container:not(.active) {
@@ -132,6 +132,34 @@ main {
 
 .gallery-image.zoomed {
     transform: scale(2);
+}
+
+/* Botón de desplazamiento */
+.scroll-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.scroll-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #D4A418;
+    color: #1a1a1a;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-button:hover {
+    background-color: #b8860b;
+}
+
+.scroll-button:active {
+    transform: scale(0.9);
 }
 
 /* Modal para vista ampliada */
