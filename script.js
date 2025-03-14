@@ -24,28 +24,27 @@ function updateBlurEffect() {
 
     imageContainers.forEach((container, index) => {
         const distance = Math.abs(index - activeIndex);
-        const blurAmount = Math.min(5, distance * 2);
+        const blurAmount = Math.min(5, distance * 5); // Aumentar la velocidad del desenfoque
         container.style.filter = `blur(${blurAmount}px)`;
+        container.style.transition = 'filter 0.1s ease'; // Transición más rápida
     });
 }
 
-// Función para centrar la imagen activa con un retraso
+// Función para centrar la imagen activa
 function centerActiveImage() {
-    setTimeout(() => {
-        const activeIndex = getActiveIndex();
-        const activeImage = imageContainers[activeIndex];
+    const activeIndex = getActiveIndex();
+    const activeImage = imageContainers[activeIndex];
 
-        activeImage.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    activeImage.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 
-        imageContainers.forEach((container, index) => {
-            if (index === activeIndex) {
-                container.classList.add('active');
-            } else {
-                container.classList.remove('active');
-            }
-        });
-        updateBlurEffect(); // Actualizar el desenfoque después de centrar
-    }, 100); // Retraso de 100ms
+    imageContainers.forEach((container, index) => {
+        if (index === activeIndex) {
+            container.classList.add('active');
+        } else {
+            container.classList.remove('active');
+        }
+    });
+    updateBlurEffect(); // Actualizar el desenfoque después de centrar
 }
 
 // Eventos para el desplazamiento con el mouse
@@ -70,7 +69,7 @@ galleryGrid.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - galleryGrid.offsetLeft;
-    const walk = (x - startX) * 0.5; // Sensibilidad reducida (0.5)
+    const walk = (x - startX) * 0.3; // Sensibilidad reducida (0.3)
     galleryGrid.scrollLeft = scrollLeft - walk;
     updateBlurEffect();
 });
@@ -86,7 +85,7 @@ galleryGrid.addEventListener('touchstart', (e) => {
 galleryGrid.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     const x = e.touches[0].pageX - galleryGrid.offsetLeft;
-    const walk = (x - startX) * 0.5; // Sensibilidad reducida (0.5)
+    const walk = (x - startX) * 0.3; // Sensibilidad reducida (0.3)
     galleryGrid.scrollLeft = scrollLeft - walk;
     updateBlurEffect();
 });
