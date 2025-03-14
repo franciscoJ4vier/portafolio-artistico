@@ -29,14 +29,18 @@ function updateBlurEffect() {
     });
 }
 
-// Función para actualizar la imagen activa
-function updateActiveImage() {
+// Función para centrar la imagen activa
+function centerActiveImage() {
     const activeIndex = getActiveIndex(); // Obtener el índice activo actual
+    const activeImage = imageContainers[activeIndex];
 
+    // Centrar la imagen activa
+    activeImage.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+
+    // Actualizar las clases activas
     imageContainers.forEach((container, index) => {
         if (index === activeIndex) {
             container.classList.add('active'); // Marcar la imagen como activa
-            container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); // Centrar la imagen
         } else {
             container.classList.remove('active'); // Desmarcar las demás imágenes
         }
@@ -56,7 +60,7 @@ galleryGrid.addEventListener('mouseleave', () => {
 
 galleryGrid.addEventListener('mouseup', () => {
     isDragging = false;
-    updateActiveImage(); // Actualizar la imagen activa al soltar el mouse
+    centerActiveImage(); // Centrar la imagen activa al soltar el mouse
 });
 
 galleryGrid.addEventListener('mousemove', (e) => {
@@ -82,7 +86,7 @@ galleryGrid.addEventListener('touchmove', (e) => {
 });
 
 galleryGrid.addEventListener('touchend', () => {
-    updateActiveImage(); // Actualizar la imagen activa al soltar el dedo
+    centerActiveImage(); // Centrar la imagen activa al soltar el dedo
 });
 
 // Zoom con doble clic o doble tap
