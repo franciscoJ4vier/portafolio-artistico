@@ -6,7 +6,7 @@ toggleButton.addEventListener('click', () => {
     galleryGrid.classList.toggle('visible');
 });
 
-// Doble clic/doble tap para zoom
+// Funcionalidad de doble tap y centrado en móviles
 document.querySelectorAll('.gallery-image').forEach(image => {
     let lastTouch = 0;
 
@@ -21,9 +21,21 @@ document.querySelectorAll('.gallery-image').forEach(image => {
             const now = new Date().getTime();
             if (now - lastTouch < 300) { // Doble tap
                 image.classList.toggle('zoomed');
+                if (image.classList.contains('zoomed')) {
+                    image.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                }
             }
             lastTouch = now;
         }
+    });
+
+    // Centrar imagen al hacer tap
+    image.addEventListener('click', () => {
+        document.querySelectorAll('.image-container').forEach(container => {
+            container.classList.remove('active');
+        });
+        image.parentElement.classList.add('active');
+        image.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
     });
 });
 
@@ -51,7 +63,7 @@ window.addEventListener('click', (e) => {
 
 // Evitar zoom en móviles sin bloquear el desplazamiento
 document.addEventListener('touchmove', (e) => {
-    if (e.touches.length > 1) { // Si hay más de un dedo en la pantalla
-        e.preventDefault(); // Evita el zoom
+    if (e.touches.length > 1) {
+        e.preventDefault();
     }
 }, { passive: false });
