@@ -70,7 +70,7 @@ galleryGrid.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - galleryGrid.offsetLeft;
-    const walk = (x - startX) * 1; // Sensibilidad reducida
+    const walk = (x - startX) * 0.5; // Sensibilidad reducida (0.5)
     galleryGrid.scrollLeft = scrollLeft - walk;
     updateBlurEffect();
 });
@@ -86,7 +86,7 @@ galleryGrid.addEventListener('touchstart', (e) => {
 galleryGrid.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     const x = e.touches[0].pageX - galleryGrid.offsetLeft;
-    const walk = (x - startX) * 1; // Sensibilidad reducida
+    const walk = (x - startX) * 0.5; // Sensibilidad reducida (0.5)
     galleryGrid.scrollLeft = scrollLeft - walk;
     updateBlurEffect();
 });
