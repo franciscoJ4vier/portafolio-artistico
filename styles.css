@@ -87,10 +87,10 @@ main {
     .gallery-grid {
         display: none;
         overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: x proximity;
         gap: 15px;
         padding-bottom: 20px;
-        scroll-behavior: smooth; /* Scroll suave */
+        scroll-behavior: smooth;
     }
 
     .gallery-grid.visible {
@@ -107,12 +107,12 @@ main {
 
     .gallery-grid .image-container:not(.active) {
         filter: blur(5px);
-        transform: scale(0.9); /* Efecto de escala para las imágenes no activas */
+        transform: scale(0.9);
     }
 
     .gallery-grid .image-container.active {
         filter: none;
-        transform: scale(1); /* Escala normal para la imagen activa */
+        transform: scale(1);
     }
 }
 
@@ -135,6 +135,28 @@ main {
 
 .gallery-image.zoomed {
     transform: scale(2);
+}
+
+/* Descripción de la imagen */
+.image-description {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.image-container.active .image-description {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Botón de desplazamiento */
