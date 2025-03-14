@@ -24,9 +24,9 @@ function updateBlurEffect() {
 
     imageContainers.forEach((container, index) => {
         const distance = Math.abs(index - activeIndex);
-        const blurAmount = Math.min(5, distance * 5); // Aumentar la velocidad del desenfoque
+        const blurAmount = Math.min(5, distance * 5); // Desenfoque más rápido
         container.style.filter = `blur(${blurAmount}px)`;
-        container.style.transition = 'filter 0.1s ease'; // Transición más rápida
+        container.style.transition = 'filter 0.1s ease, transform 0.3s ease'; // Transiciones rápidas
     });
 }
 
